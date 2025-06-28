@@ -7,6 +7,7 @@ import { authRouter } from './routes/auth.route';
 import { transactionRouter } from './routes/transaction.route';
 import { dashboardRouter } from './routes/dashboard.route';
 import { exportRouter } from './routes/export.route';
+import { setupSwagger } from './config/swagger'; 
 
 export const app = express();
 
@@ -21,6 +22,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/transactions', transactionRouter);
 app.use('/api/v1/dashboard', dashboardRouter);
 app.use('/api/v1/export', exportRouter);
+
+setupSwagger(app);  
 
 /* ───── health-check ───── */
 app.get('/', (_req, res): void => {
