@@ -8,39 +8,49 @@ import { User } from '../models/user.model';
 
 dotenv.config();
 
-// ⬇️  Adjust the relative path if you move files
+/* ------------------------------------------------------------------ */
+/* 1. Load JSON file                                                  */
+/* ------------------------------------------------------------------ */
 const file = path.join(__dirname, '../../../transactions.json');
+const raw: any[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
 
+/* ------------------------------------------------------------------ */
+/* 2. DB bootstrap                                                    */
+/* ------------------------------------------------------------------ */
 (async () => {
   await connectDB();
 
-  /* ------------------------------------------------------------------ */
-  /* 1. Ensure admin user                                                */
-  /* ------------------------------------------------------------------ */
+  /* admin user ------------------------------------------------------ */
   const adminEmail = 'admin@example.com';
-  const adminPwd   = 'Passw0rd!';
-
   if (!(await User.findOne({ email: adminEmail }))) {
-    await User.create({ email: adminEmail, password: adminPwd, role: 'admin' });
+    await User.create({
+      email: adminEmail,
+      password: 'Passw0rd!',
+      role: 'admin',
+    });
     console.log('👤  Demo admin user seeded');
   }
 
-  /* ------------------------------------------------------------------ */
-  /* 2. Transform and import transactions                               */
-  /* ------------------------------------------------------------------ */
-  const raw: any[] = JSON.parse(fs.readFileSync(file, 'utf-8'));
-
+  /* transactions ---------------------------------------------------- */
   const transformed = raw.map((r) => ({
-    // simple readable title for the table/search
+    /* helper fields */
     title: `${r.category} #${r.id}`,
-    date: new Date(r.date),
+    date:  new Date(r.date),
     amount: r.amount,
-    type: r.category === 'Revenue' ? 'income' : 'expense',           // map category
-    status: r.status === 'Paid' ? 'completed' : 'pending',           // map status
+
+    /* derived fields */
+    type:   r.category === 'Revenue' ? 'income' : 'expense',
+    status: r.status   === 'Paid'    ? 'completed' : 'pending',
+
+    /* original JSON fields */
+    category:     r.category,
+    user_id:      r.user_id,
+    user_name:    r.user_id,            // placeholder name
+    user_profile: r.user_profile,
   }));
 
-  await Transaction.deleteMany();               // clear old data
-  await Transaction.insertMany(transformed);    // bulk insert
+  await Transaction.deleteMany();
+  await Transaction.insertMany(transformed);
 
   console.log(`✅  Seed complete — ${transformed.length} transactions`);
   process.exit(0);

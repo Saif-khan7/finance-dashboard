@@ -1,0 +1,17 @@
+{
+  // acts as a solution config; no files compiled directly
+  "files": [],
+
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+
+  /* VS Code sometimes falls back to the root config for intellisense,
+     so add minimal compiler options that recognise import.meta */
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2020",
+    "types": ["vite/client"]          // ensure import.meta typing
+  }
+}

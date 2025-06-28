@@ -6,20 +6,21 @@ export interface ITransaction extends Document {
   amount: number;
   date: Date;
   status: 'completed' | 'pending';
+  category: string;
+  user_id: string;
+  user_name: string;       // NEW
+  user_profile: string;
 }
 
-const transactionSchema = new Schema<ITransaction>(
-  {
-    title: String,
-    type: { type: String, enum: ['income', 'expense'], required: true },
-    amount: Number,
-    date: Date,
-    status: { type: String, enum: ['completed', 'pending'], default: 'completed' },
-  },
-  { timestamps: true }
-);
-
-transactionSchema.index({ date: 1, status: 1 });
-transactionSchema.index({ amount: -1 });
-
-export const Transaction = model<ITransaction>('Transaction', transactionSchema);
+const schema = new Schema<ITransaction>({
+  title: String,
+  type: { type: String, enum: ['income', 'expense'] },
+  amount: Number,
+  date: Date,
+  status: { type: String, enum: ['completed', 'pending'] },
+  category: String,
+  user_id: String,
+  user_name: String,
+  user_profile: String,
+},{timestamps:true});
+export const Transaction = model<ITransaction>('Transaction', schema);
