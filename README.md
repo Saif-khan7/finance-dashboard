@@ -17,3 +17,5 @@ It allows users to log in, track income and expenses, view insights through char
 - Responsive design (mobile and desktop)
 
 ![Dashboard](public/Dashboard1.png)
+![Dashboard](public/Dashboard2.png)
+![Dashboard](public/Dashboard3.png)
