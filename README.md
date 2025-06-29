@@ -16,4 +16,4 @@ It allows users to log in, track income and expenses, view insights through char
     - Export to CSV
 - Responsive design (mobile and desktop)
 
-![Dashboard](public/dashboard.png)
+![Dashboard](public/Dashboard1.png)
