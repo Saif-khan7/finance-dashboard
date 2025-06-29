@@ -1,4 +1,4 @@
-# Financial Analytics Dashboard
+# 📊Financial Analytics Dashboard
 An interactive and responsive full-stack financial analytics dashboard built with React, Tailwind CSS, Express, and MongoDB.
 It allows users to log in, track income and expenses, view insights through charts, and manage transactions effectively.
 
